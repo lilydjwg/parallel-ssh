@@ -9,7 +9,6 @@ import threading
 import queue
 
 from psshlib.askpass_server import PasswordServer
-from psshlib import psshutil
 
 READ_SIZE = 1 << 16
 
@@ -346,7 +345,6 @@ class Writer(threading.Thread):
                     if dest is None:
                         dest = self.files[filename] = open(
                             filename, self.filewritemode, buffering=0)
-                        psshutil.set_cloexec(dest)
                     dest.write(data)
 
     def open_files(self, host):

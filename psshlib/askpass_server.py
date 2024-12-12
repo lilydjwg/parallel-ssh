@@ -14,9 +14,6 @@ import sys
 import tempfile
 import textwrap
 
-from psshlib import psshutil
-
-
 class PasswordServer(object):
     """Listens on a UNIX domain socket for password requests."""
     def __init__(self):
@@ -43,7 +40,6 @@ class PasswordServer(object):
         self.tempdir = tempfile.mkdtemp(prefix='pssh.')
         self.address = os.path.join(self.tempdir, 'pssh_askpass_socket')
         self.sock = socket.socket(socket.AF_UNIX)
-        psshutil.set_cloexec(self.sock)
         self.sock.bind(self.address)
         self.sock.listen(backlog)
         iomap.register_read(self.sock.fileno(), self.handle_listen)

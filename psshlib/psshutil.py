@@ -1,7 +1,6 @@
 # Copyright (c) 2009-2012, Andrew McNabb
 # Copyright (c) 2003-2008, Brent N. Chun
 
-import fcntl
 import re
 import sys
 import fnmatch
@@ -101,10 +100,3 @@ def parse_host(host, default_user=None, default_port=None):
     return (host, port, user)
 
 
-def set_cloexec(filelike):
-    """Sets the underlying filedescriptor to automatically close on exec.
-
-    If set_cloexec is called for all open files, then subprocess.Popen does
-    not require the close_fds option.
-    """
-    fcntl.fcntl(filelike.fileno(), fcntl.FD_CLOEXEC, 1)
