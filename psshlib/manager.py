@@ -2,7 +2,6 @@
 
 from errno import EINTR
 import os
-import fcntl
 import select
 import signal
 import sys
@@ -187,8 +186,7 @@ class IOMap(object):
         self.writemap = {}
 
         # Setup the wakeup file descriptor to avoid hanging on lost signals.
-        wakeup_readfd, wakeup_writefd = os.pipe()
-        fcntl.fcntl(wakeup_writefd, fcntl.F_SETFL, os.O_NONBLOCK)
+        wakeup_readfd, wakeup_writefd = os.pipe2(os.O_NONBLOCK)
         self.register_read(wakeup_readfd, self.wakeup_handler)
         signal.set_wakeup_fd(wakeup_writefd)
 
